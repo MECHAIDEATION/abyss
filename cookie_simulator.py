@@ -70,6 +70,46 @@ def calculate_party_damage_contributions(
     seaz_by_cookie = dict(best.get("party_seaz", {}) or {})
     unique_by_cookie = dict(best.get("party_uniques", {}) or {})
 
+    party_slot_settings = best.get("party_slot_settings") or []
+    if not isinstance(party_slot_settings, list):
+        party_slot_settings = []
+
+    def _slot_setting(index: int) -> dict:
+        if 0 <= index < len(party_slot_settings) and isinstance(party_slot_settings[index], dict):
+            return party_slot_settings[index]
+        return {}
+
+    def _party_settings_for_remaining_members(remaining_team_indices: list[int]) -> tuple[dict, dict, dict]:
+        sets: dict = {}
+        seaz: dict = {}
+        uniques: dict = {}
+        for team_index in remaining_team_indices:
+            if team_index == 0:
+                continue
+            party_index = team_index - 1
+            setting = _slot_setting(party_index)
+            name = str(setting.get("cookie", "") or "").strip()
+            if not name:
+                name = str(team[team_index] or "").strip()
+            if not name:
+                continue
+            equip = str(setting.get("equip", "") or "").strip()
+            seaz_name = str(setting.get("seaz", "") or "").strip()
+            unique = str(setting.get("unique", "") or "").strip()
+            if not equip:
+                equip = str(equip_by_cookie.get(name, "") or "").strip()
+            if not seaz_name:
+                seaz_name = str(seaz_by_cookie.get(name, "") or "").strip()
+            if not unique:
+                unique = str(unique_by_cookie.get(name, "") or "").strip()
+            if equip:
+                sets[name] = equip
+            if seaz_name:
+                seaz[name] = seaz_name
+            if unique:
+                uniques[name] = unique
+        return sets, seaz, uniques
+
     main_equip = best.get("equip") or best.get("equip_fixed") or ""
     main_seaz = best.get("seaz") or best.get("seaz_fixed") or ""
     main_unique = best.get("unique") or best.get("unique_fixed") or ""
@@ -124,18 +164,27 @@ def calculate_party_damage_contributions(
     party_count = len(party)
 
     for index, cookie_name in enumerate(party):
-        # 메인 중복 딜러 동일 세팅·동일 피해량 적용
-        # 이름 기반 설정 충돌 방지
+        # 딜러 슬롯별 세팅을 독립적으로 사용
+        current_team_index = index + 1
+        current_slot_setting = _slot_setting(index)
+        current_equip = str(current_slot_setting.get("equip", "") or "").strip() or equip_by_cookie.get(cookie_name) or ""
+        current_seaz = str(current_slot_setting.get("seaz", "") or "").strip() or seaz_by_cookie.get(cookie_name) or ""
+        current_unique = str(current_slot_setting.get("unique", "") or "").strip() or unique_by_cookie.get(cookie_name) or ""
+
+        # 메인과 같은 쿠키를 선택한 경우에도 딜러 슬롯 자체의 세팅을 사용
         if cookie_name == main_cookie:
-            members.append({
-                "cookie": cookie_name,
-                "damage": main_damage,
-                "dps": float(best.get("dps", 0.0) or 0.0),
-                "is_main": False,
-                "same_as_main": True,
-            })
-            emit((index + 1) / party_count)
-            continue
+            # 메인과 동일한 쿠키라도 별도 슬롯 세팅으로 다시 계산
+            optimizer_info = optimizer_map.get(cookie_name)
+            if optimizer_info is None:
+                members.append({
+                    "cookie": cookie_name,
+                    "damage": main_damage,
+                    "dps": float(best.get("dps", 0.0) or 0.0),
+                    "is_main": False,
+                    "same_as_main": True,
+                })
+                emit((index + 1) / party_count)
+                continue
 
         optimizer_info = optimizer_map.get(cookie_name)
         if optimizer_info is None:
@@ -144,22 +193,15 @@ def calculate_party_damage_contributions(
             continue
 
         optimizer, step = optimizer_info
-        member_party = [name for name in team if name != cookie_name]
-        member_party_sets = {
-            name: equip_by_cookie[name]
-            for name in member_party
-            if equip_by_cookie.get(name)
-        }
-        member_party_seaz = {
-            name: seaz_by_cookie[name]
-            for name in member_party
-            if seaz_by_cookie.get(name)
-        }
-        member_party_uniques = {
-            name: unique_by_cookie[name]
-            for name in member_party
-            if unique_by_cookie.get(name)
-        }
+        remaining_team_indices = [
+            team_index
+            for team_index in range(len(team))
+            if team_index != current_team_index
+        ]
+        member_party = [team[team_index] for team_index in remaining_team_indices]
+        member_party_sets, member_party_seaz, member_party_uniques = _party_settings_for_remaining_members(
+            remaining_team_indices
+        )
 
         def member_progress(value: float, *, _index=index) -> None:
             try:
@@ -170,15 +212,15 @@ def calculate_party_damage_contributions(
 
         try:
             result = optimizer(
-                seaz_name=seaz_by_cookie.get(cookie_name) or None,
+                seaz_name=current_seaz or None,
                 party=member_party,
                 party_sets=member_party_sets,
                 party_seaz=member_party_seaz,
                 party_uniques=member_party_uniques,
                 step=step,
                 progress_cb=member_progress,
-                equip_override=equip_by_cookie.get(cookie_name) or None,
-                unique_override=unique_by_cookie.get(cookie_name) or None,
+                equip_override=current_equip or None,
+                unique_override=current_unique or None,
                 potential_override=None,
             )
         except Exception as exc:
