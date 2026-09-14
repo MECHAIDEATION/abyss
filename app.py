@@ -391,37 +391,41 @@ def _restore_selection_widgets_for_language_toggle() -> None:
         party_sets = dict(st.session_state.get("party_sets") or {})
         party_seaz = dict(st.session_state.get("party_seaz") or {})
         party_uniques = dict(st.session_state.get("party_uniques") or {})
+        party_slot_settings = st.session_state.get("party_slot_settings") or []
 
-        if len(party) >= 1 and party[0]:
-            p = party[0]
-            if p in party_sets:
-                st.session_state[party_equip1_key(k)] = party_sets[p]
-            if p in party_seaz:
-                st.session_state[party_seaz1_key(k)] = party_seaz[p]
-            if p in party_uniques:
-                st.session_state[party_unique1_key(k)] = party_uniques[p]
-        if len(party) >= 2 and party[1]:
-            p = party[1]
-            if p in party_sets:
-                st.session_state[party_equip2_key(k)] = party_sets[p]
-            if p in party_seaz:
-                st.session_state[party_seaz2_key(k)] = party_seaz[p]
-            if p in party_uniques:
-                st.session_state[party_unique2_key(k)] = party_uniques[p]
-        if dealer_cookie:
-            if dealer_cookie in party_sets:
-                st.session_state[party_equip3_key(k)] = party_sets[dealer_cookie]
-            if dealer_cookie in party_seaz:
-                st.session_state[party_seaz3_key(k)] = party_seaz[dealer_cookie]
-            if dealer_cookie in party_uniques:
-                st.session_state[party_unique3_key(k)] = party_uniques[dealer_cookie]
-        if dealer_cookie2:
-            if dealer_cookie2 in party_sets:
-                st.session_state[party_equip4_key(k)] = party_sets[dealer_cookie2]
-            if dealer_cookie2 in party_seaz:
-                st.session_state[party_seaz4_key(k)] = party_seaz[dealer_cookie2]
-            if dealer_cookie2 in party_uniques:
-                st.session_state[party_unique4_key(k)] = party_uniques[dealer_cookie2]
+        slot_keys = [
+            (party_equip1_key(k), party_seaz1_key(k), party_unique1_key(k)),
+            (party_equip2_key(k), party_seaz2_key(k), party_unique2_key(k)),
+            (party_equip3_key(k), party_seaz3_key(k), party_unique3_key(k)),
+            (party_equip4_key(k), party_seaz4_key(k), party_unique4_key(k)),
+        ]
+        for index, party_cookie in enumerate(party):
+            if index >= len(slot_keys) or not party_cookie:
+                continue
+
+            equip_key_i, seaz_key_i, unique_key_i = slot_keys[index]
+            slot_setting = (
+                party_slot_settings[index]
+                if index < len(party_slot_settings) and isinstance(party_slot_settings[index], dict)
+                else {}
+            )
+            slot_cookie = str(slot_setting.get("cookie", "") or "")
+            if slot_cookie == party_cookie:
+                if slot_setting.get("equip"):
+                    st.session_state[equip_key_i] = slot_setting["equip"]
+                if slot_setting.get("seaz"):
+                    st.session_state[seaz_key_i] = slot_setting["seaz"]
+                if slot_setting.get("unique"):
+                    st.session_state[unique_key_i] = slot_setting["unique"]
+                continue
+
+            # 슬롯별 기록이 없는 기존 세션은 쿠키명 기준 값으로 복구
+            if party_cookie in party_sets:
+                st.session_state[equip_key_i] = party_sets[party_cookie]
+            if party_cookie in party_seaz:
+                st.session_state[seaz_key_i] = party_seaz[party_cookie]
+            if party_cookie in party_uniques:
+                st.session_state[unique_key_i] = party_uniques[party_cookie]
     except Exception:
         # 언어 전환 보정 실패 시 앱 실행 유지
         pass
@@ -942,6 +946,7 @@ with st.container(key="outer_shell", border=False):
                     st.session_state.party = []
                     st.session_state.party_uniques = {}
                     st.session_state.party_sets = {}
+                    st.session_state.party_slot_settings = []
                     st.session_state.main_unique = ""
                     st.session_state.best = None
                     st.session_state.best_kind = None
@@ -997,6 +1002,7 @@ with st.container(key="outer_shell", border=False):
                     st.session_state.party = []
                     st.session_state.party_uniques = {}
                     st.session_state.party_sets = {}
+                    st.session_state.party_slot_settings = []
                     st.session_state.main_unique = ""
                     st.session_state.best = None
                     st.session_state.best_kind = None
@@ -2001,6 +2007,32 @@ with st.container(key="outer_shell", border=False):
                     st.session_state.party_sets = party_sets_map
                     st.session_state.party_seaz = party_seaz_map
                     st.session_state.party_uniques = party_uniques_map
+                    st.session_state.party_slot_settings = [
+                        {
+                            "cookie": st.session_state.get(p1k, ""),
+                            "equip": st.session_state.get(pe1k, ""),
+                            "seaz": st.session_state.get(ps1k, ""),
+                            "unique": st.session_state.get(pu1k, ""),
+                        },
+                        {
+                            "cookie": st.session_state.get(p2k, ""),
+                            "equip": st.session_state.get(pe2k, ""),
+                            "seaz": st.session_state.get(ps2k, ""),
+                            "unique": st.session_state.get(pu2k, ""),
+                        },
+                        {
+                            "cookie": dealer_cookie if dealer_cookie and dealer_cookie != "없음" else "",
+                            "equip": st.session_state.get(pe3k, ""),
+                            "seaz": st.session_state.get(ps3k, ""),
+                            "unique": st.session_state.get(pu3k, ""),
+                        },
+                        {
+                            "cookie": dealer_cookie2 if dealer_cookie2 and dealer_cookie2 != "없음" else "",
+                            "equip": st.session_state.get(pe4k, ""),
+                            "seaz": st.session_state.get(ps4k, ""),
+                            "unique": st.session_state.get(pu4k, ""),
+                        },
+                    ]
 
             with setting_tab:
                 with st.container(key="setting_tab_body", border=False):
@@ -2413,6 +2445,12 @@ with st.container(key="outer_shell", border=False):
                     best["potentials"] = dict(best.get("potentials") or {})
 
                 if isinstance(best, dict):
+                    best["party_slot_settings"] = [
+                        dict(item)
+                        for item in (st.session_state.get("party_slot_settings") or [])
+                        if isinstance(item, dict)
+                    ]
+
                     def party_contribution_cb(p: float):
                         p = max(0.0, min(1.0, float(p)))
                         progress_slot.markdown(
