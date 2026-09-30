@@ -66,6 +66,6 @@ EQUIP_SETS = {
         "head": {"base": {"all_elem_dmg": 0.312}, "unique": {"special_dmg": 0.15}},
         "top":  {"base": {"def_pct": 0.52},       "unique": {"crit_rate": 0.15}},
         "bottom":{"base": {"hp_pct": 0.52},       "unique": {"crit_dmg": 0.375}},
-        "set_effect": {"base": {"special_dmg": 0.30}
+        "set_effect": {"base": {"special_dmg": 0.30}}
         }
 }
