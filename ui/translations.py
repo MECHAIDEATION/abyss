@@ -47,6 +47,7 @@ _ENGLISH_TXT_FALLBACK = r"""
 황금 예복 : Golden Finery
 유성우의 향연 : Falling Stars
 영원의 대마술사 : Eternal Magician
+잊혀진 영웅의 슈트 세트 : Forgotten Hero's
 
 페퍼루비 : Pepper Ruby
 리치코랄 : Lychee Coral
