@@ -100,7 +100,7 @@ JACKFRUIT_CYCLE_EVENTS = (
 )
 
 def jackfruit_allowed_equips() -> List[str]:
-    return ["달콤한 설탕 깃털", "미지의 방랑자", "수상한 사냥꾼", "시간관리국의 제복"]
+    return ["달콤한 설탕 깃털", "미지의 방랑자", "수상한 사냥꾼", "시간관리국의 제복", "잊혀진 영웅의 슈트 세트"]
 
 def jackfruit_allowed_uniques() -> List[str]:
     return [

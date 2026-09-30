@@ -111,7 +111,7 @@ def moonlight_allowed_equips() -> List[str]:
     # 달빛술사 장비 후보: 유성우/시간셋을 사용
     # 잠재력은 장비와 관계없이 실제 DPS 기준으로 탐색
     # 기본값은 유성우의 향연
-    return [x for x in ["유성우의 향연", "시간관리국의 제복"] if x in EQUIP_SETS]
+    return [x for x in ["유성우의 향연", "시간관리국의 제복", "잊혀진 영웅의 슈트 세트", "달콤한 설탕 깃털", "미지의 방랑자", "수상한 사냥꾼", "전설의 유령해적", "황금 예복", "영원의 대마술사"] if x in EQUIP_SETS]
 
 def moonlight_allowed_seaz() -> List[str]:
     # 달빛술사는 플럼나이트 계열만 표시
