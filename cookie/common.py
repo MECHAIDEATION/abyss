@@ -2640,7 +2640,7 @@ def _apply_sancho_main_effects(stats: Dict[str, float], main_cookie_name: str) -
     stats["final_atk_mult"] = float(stats.get("final_atk_mult", 0.0)) + add_final_atk
     stats["buff_final_atk_mult"] = float(stats.get("buff_final_atk_mult", 0.0)) + add_final_atk
     stats["special_dmg"] = float(stats.get("special_dmg", 0.0)) + add_special_dmg
-    stats["enemy_special_taken_inc"] = float(stats.get("enemy_special_taken_inc", 0.0)) + (0.08 + 0.058)
+    stats["enemy_special_taken_inc"] = float(stats.get("enemy_special_taken_inc", 0.0)) + (0.15)
 
 def _apply_party_amp_totals(stats: Dict[str, float], party: List[str], main_cookie_name: str) -> None:
 
