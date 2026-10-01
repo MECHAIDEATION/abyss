@@ -303,9 +303,9 @@ def optimize_sancho_cycle(
             emit(done / total)
 
         stats = dict(template)
-        stats["elem_atk"] = float(stats.get("elem_atk", 0.0)) + ea_inc * int(sh.get("elem_atk", 0))
-        stats["atk_pct"]  = float(stats.get("atk_pct", 0.0))  + ap_inc * int(sh.get("atk_pct", 0))
-        stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + hp_inc * int(sh.get("heal_pct", 0))
+        stats["elem_atk"] = float(stats.get("elem_atk", 0.0)) + float(SHARD_INC.get("elem_atk", 0.0)) * int(sh.get("elem_atk", 0))
+        stats["atk_pct"] = float(stats.get("atk_pct", 0.0)) + float(SHARD_INC.get("atk_pct", 0.0)) * int(sh.get("atk_pct", 0))
+        stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + float(SHARD_INC.get("heal_pct", 0.0)) * int(sh.get("heal_pct", 0))
 
         # 설탕유리조각 방어 관통 상한 재검사 생략
 
