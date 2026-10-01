@@ -56,14 +56,14 @@ SANCHO_CYCLE_TOKENS = [
     "U", "ES", "S"
     "B1", "B2", "B3",
     "B1", "B2", "B3",
-    "B1", "B2", "B3",
-    "B1", "B2", "B3",
+    "H", "H", "H", "H", "H", "H", "H", "H", 
     "S",
+    "H", "H", "H", "H", 
     "B1", "B2", "B3",
     "B1", "B2", "B3",
-    "B1", "B2", "B3",
-    "B1", "B2", "B3",
+    "B1", "B2",
     "S",
+    "H","H","H","H","H","H",
 ]
 
 # =====================================================
@@ -76,12 +76,8 @@ SANCHO_BASIC_3 = 5.112
 SANCHO_SPECIAL = (8.52 * 2.0)
 SANCHO_ESPECIAL = (21.30 + 25.56)
 SANCHO_ULT = (1.42 * 15.0) + 28.4
-
-# 패시브(딜) 근사(기존 근사 유지)
-# SANCHO_PASSIVE_TRIGGER_INTERVAL = 1.0  # 패시브 발동 간격
-# SANCHO_PASSIVE_PER_TRIGGER      = (2.0 * 3.55) + (9.94 / 3.0)  # 패시브 1회 발동 피해 계수 = 10.413
-# SANCHO_PASSIVE_COEFF_PER_SEC    = SANCHO_PASSIVE_PER_TRIGGER / SANCHO_PASSIVE_TRIGGER_INTERVAL  # 패시브 초당 피해 계수 10.413
-
+SANCHO_CHARGE = 0
+SANCHO_CHARGE_HEAL_RATIO = 0.081
 SANCHO_PASSIVE_TRIGGER_INTERVAL = 4.0
 
 
@@ -89,14 +85,6 @@ SANCHO_PASSIVE_TRIGGER_INTERVAL = 4.0
 # =====================================================
 # 회복 이벤트 및 아티팩트 반영
 # =====================================================
-def sancho_heal_event_counts() -> Dict[str, int]:
-    knot_cnt = int(SANCHO_KNOT_COUNT_1) + int(SANCHO_KNOT_COUNT_2)   # 10
-    soul_cnt = int(SANCHO_SOUL_COUNT_1) + int(SANCHO_SOUL_COUNT_2)   # 3
-    return {
-        "main_cnt": int(SANCHO_HEAL_MAIN_COUNT),
-        "knot_cnt": knot_cnt,
-        "soul_cnt": soul_cnt,
-    }
 
 # 승급 최소 반영 토글(딜 계산 전용)
 # - 회복 횟수 고정
@@ -113,41 +101,21 @@ def sancho_cycle_total_time() -> float:
 def sancho_calc_final_atk(stats: Dict[str, float]) -> float:
     return calc_attack_value(stats, floor_result=False)
 
-def sancho_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
-    """산초맛 쿠키 사이클 회복량"""
+def sancho_calc_support_metrics(stats: Dict[str, float]) -> Dict[str, float]:
     total_time = sancho_cycle_total_time()
-    final_atk  = sancho_calc_final_atk(stats)
-
-    counts = sancho_heal_event_counts()
-    main_cnt = int(counts["main_cnt"])
-    knot_cnt = int(counts["knot_cnt"])
-    soul_cnt = int(counts["soul_cnt"])
-
+    final_atk = sancho_calc_final_atk(stats)
+    final_hp = sancho_calc_final_hp(stats)
     heal_mult = 1.0 + float(stats.get("heal_pct", 0.0))
 
-    ult_heal_mult = float(SANCHO_ULT_HEAL_PROMO_MULT)
-
-    # 성급 효과 "궁극기 회복량 +20%"는 궁극기 회복에 속한
-    # 즉시 회복·매듭 회복 전용
-    heal_main = final_atk * SANCHO_HEAL_MAIN_RATIO * main_cnt * heal_mult * ult_heal_mult
-    heal_knot = final_atk * SANCHO_HEAL_KNOT_RATIO * knot_cnt * heal_mult * ult_heal_mult
-    heal_soul = final_atk * SANCHO_SOUL_HEAL_RATIO * soul_cnt * heal_mult
-
-    total_heal = heal_main + heal_knot + heal_soul
-    hps        = total_heal / total_time if total_time > 0 else 0.0
-
+    hold_cnt = sum(1 for t in SANCHO_CYCLE_TOKENS if t == "S")
+    heal_hold = final_atk * SANCHO_CHARGE_HEAL_RATIO * hold_cnt * heal_mult
+    hps = heal_hold / total_time if total_time > 0 else 0.0
     return {
         "total_time": total_time,
         "final_atk": final_atk,
-        "heal_main": heal_main,
-        "heal_knot": heal_knot,
-        "heal_soul": heal_soul,
         "total_heal": total_heal,
         "hps": hps,
         "main_cnt": main_cnt,
-        "knot_cnt": knot_cnt,
-        "soul_trig_cnt": soul_cnt,
-        "ult_heal_mult": ult_heal_mult,
     }
 
 # =====================================================
@@ -155,7 +123,6 @@ def sancho_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
 # =====================================================
 def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, float]:
     total_time = sancho_cycle_total_time()
-    promo_on = bool(stats.get("_char_promo_on", 0.0)) and bool(sancho_PROMO_ENABLED)
 
     direct = 0.0
     breakdown = {
@@ -207,13 +174,12 @@ def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, 
             direct += dmg
             breakdown["ult"] += dmg
 
-    # 패시브: 아티팩트(공허/유실) 배율 + (승급) 패시브 피해 +100%
-    passive_mult = float(stats.get("passive_dmg_mult", 1.0))
-    if promo_on:
-        passive_mult *= float(SANCHO_PROMO_PASSIVE_DMG_MULT)
-
-    passive_total = skill_damage_from_start(stats, (SANCHO_PASSIVE_COEFF_PER_SEC * total_time), "passive", extra_skill_mult=passive_mult)
-    breakdown["passive"] = passive_total
+        if tok == "H":
+            b_toggle ^= 1
+            coeff = SANCHO_CHARGE
+            dmg = skill_damage_from_start(stats, coeff, "basic")
+            direct += dmg
+            breakdown["basic"] += dmg
 
     strike = strike_total_from_direct(direct, "산초맛 쿠키", stats, party)  # <-- 외부 함수
     breakdown["strike"] = strike
@@ -347,7 +313,6 @@ def optimize_sancho_cycle(
 
         # 설탕유리조각 방어 관통 상한 재검사 생략
 
-        heal  = sancho_calc_heal_per_cycle(stats)
         cycle = sancho_cycle_damage(stats, party)
 
         cur = {
