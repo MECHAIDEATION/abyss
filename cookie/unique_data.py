@@ -57,6 +57,7 @@ SEASON4_UNIQUE_SHARDS = {
             "이슬맛 쿠키": 0.12,
             "샬롯맛 쿠키": 0.12,
             "네온데니쉬맛 쿠키": 0.12,
+            "산초맛 쿠키": 0.12
         },
     },
     "로드 나이트메어의 기억": {
@@ -76,6 +77,7 @@ SEASON4_UNIQUE_SHARDS = {
         "dmg_taken_inc_by_cookie": {
             # 네온데니쉬맛 쿠키: 자장가 미발동
             "네온데니쉬맛 쿠키": 0.0,
+            "산초맛 쿠키": 0.06,
         },
     },
 
@@ -152,6 +154,7 @@ SEASON1_UNIQUE_SHARDS = {
             "샬롯맛 쿠키": 0.36 + (0.15 * 13.0 * 4.0 / 90.0),
             "네온데니쉬맛 쿠키": 0.36 + (0.15 * 13.0 * 4.0 / 90.0),
             "달빛술사 쿠키": 0.36 + (0.15 * 13.0 * 4.0 / 90.0),
+            "산초맛 쿠키": 0.36 + (0.15 * 13.0 * 4.0 / 90.0),
         },
         "base_debuff_amp_add": 0.36,
         "stack_debuff_amp_add": 0.15,
@@ -171,6 +174,7 @@ SEASON1_UNIQUE_SHARDS = {
             "샬롯맛 쿠키": 0.36 + (0.15 * 13.0 * 4.0 / 90.0),
             "네온데니쉬맛 쿠키": 0.36 + (0.15 * 13.0 * 4.0 / 90.0),
             "달빛술사 쿠키": 0.36 + (0.15 * 13.0 * 4.0 / 90.0),
+            "산초맛 쿠키": 0.36 + (0.15 * 13.0 * 4.0 / 90.0),
         },
         "base_buff_amp_add": 0.36,
         "stack_buff_amp_add": 0.15,
@@ -270,6 +274,7 @@ SEASON2_UNIQUE_SHARDS = {
             "샬롯맛 쿠키": 0.10,
             "네온데니쉬맛 쿠키": 0.10,
             "달빛술사 쿠키": 0.0,
+            "산초맛 쿠키": 0.10,
         },
     },
     "콜라비맛 쿠키의 기억": {
@@ -280,6 +285,7 @@ SEASON2_UNIQUE_SHARDS = {
         "dmg_taken_inc": 0.08,
         "dmg_taken_inc_by_cookie": {
             "네온데니쉬맛 쿠키": 0.0,
+            "산초맛 쿠키": 0.08,
         },
         # 표식 소멸 피해 2000% / 지속 15초
         "proc_coeff_per_sec": 20.0 / 15.0,
@@ -465,6 +471,7 @@ def get_default_party_unique(cookie_name: str, season: str | None = None) -> str
             "이슬맛 쿠키": "정화된 에메랄딘의 기억",
             "샬롯맛 쿠키": "정화된 에메랄딘의 기억",
             "네온데니쉬맛 쿠키": "정화된 에메랄딘의 기억",
+            "산초맛 쿠키": "정화된 에메랄딘의 기억",
             "달빛술사 쿠키": "데스파라거스의 기억",
         }
     elif active_season == "season2":
@@ -486,6 +493,7 @@ def get_default_party_unique(cookie_name: str, season: str | None = None) -> str
             "샬롯맛 쿠키": "버터밀크맛 쿠키의 기억",
             "네온데니쉬맛 쿠키": "블랙베리맛 쿠키의 기억",
             "달빛술사 쿠키": "콜라비맛 쿠키의 기억",
+            "산초맛 쿠키": "블랙베리맛 쿠키의 기억",
         }
     elif active_season == "season3":
         defaults = {
@@ -499,6 +507,7 @@ def get_default_party_unique(cookie_name: str, season: str | None = None) -> str
             "밀키웨이맛 쿠키": "룽샤맛 쿠키의 기억",
             "체리콜라맛 쿠키": "룽샤맛 쿠키의 기억",
             "스테인드누가맛 쿠키": "룽샤맛 쿠키의 기억",
+            "산초맛 쿠키": "블랙베리맛 쿠키의 기억",
         }
     else:
         defaults = {
@@ -512,5 +521,6 @@ def get_default_party_unique(cookie_name: str, season: str | None = None) -> str
             "밀키웨이맛 쿠키": "꿈열차에 실린 기억",
             "체리콜라맛 쿠키": "꿈열차에 실린 기억",
             "스테인드누가맛 쿠키": "꿈열차에 실린 기억",
+            "산초맛 쿠키": "블랙베리맛 쿠키의 기억",
         }
     return defaults.get(str(cookie_name or "").strip(), "")
