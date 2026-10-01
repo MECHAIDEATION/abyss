@@ -77,6 +77,7 @@ SUPPORT_COOKIE_OPTIONS = [
     "네온데니쉬맛 쿠키",
     "샬롯맛 쿠키",
     "이슬맛 쿠키",
+    "산초맛 쿠키",
 ]
 
 STRIKE_COOKIE_OPTIONS = [
