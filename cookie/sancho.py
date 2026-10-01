@@ -78,12 +78,6 @@ SANCHO_ESPECIAL = (21.30 + 25.56)
 SANCHO_ULT = (1.42 * 15.0) + 28.4
 SANCHO_CHARGE = 0
 SANCHO_CHARGE_HEAL_RATIO = 0.081
-
-# 패시브(딜) 근사(기존 근사 유지)
-# SANCHO_PASSIVE_TRIGGER_INTERVAL = 1.0  # 패시브 발동 간격
-# SANCHO_PASSIVE_PER_TRIGGER      = (2.0 * 3.55) + (9.94 / 3.0)  # 패시브 1회 발동 피해 계수 = 10.413
-# SANCHO_PASSIVE_COEFF_PER_SEC    = SANCHO_PASSIVE_PER_TRIGGER / SANCHO_PASSIVE_TRIGGER_INTERVAL  # 패시브 초당 피해 계수 10.413
-
 SANCHO_PASSIVE_TRIGGER_INTERVAL = 4.0
 
 
@@ -186,14 +180,6 @@ def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, 
             dmg = skill_damage_from_start(stats, coeff, "basic")
             direct += dmg
             breakdown["basic"] += dmg
-
-    # 패시브: 아티팩트(공허/유실) 배율 + (승급) 패시브 피해 +100%
-    passive_mult = float(stats.get("passive_dmg_mult", 1.0))
-    if promo_on:
-        passive_mult *= float(SANCHO_PROMO_PASSIVE_DMG_MULT)
-
-    passive_total = skill_damage_from_start(stats, (SANCHO_PASSIVE_COEFF_PER_SEC * total_time), "passive", extra_skill_mult=passive_mult)
-    breakdown["passive"] = passive_total
 
     strike = strike_total_from_direct(direct, "산초맛 쿠키", stats, party)  # <-- 외부 함수
     breakdown["strike"] = strike
