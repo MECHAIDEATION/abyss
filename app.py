@@ -2463,7 +2463,7 @@ with st.container(key="outer_shell", border=False):
                     best_kind = "neon"
 
                 elif kind_cookie == "sancho":
-                    fn = getattr(sim, "optimize_char_cycle", None)
+                    fn = getattr(sim, "optimize_sancho_cycle", None)
                     if fn is None:
                         raise ValueError("sim.optimize_sancho_cycle 가 없습니다. cookie_simulator.py에 추가해 주세요.")
                     best = fn(
