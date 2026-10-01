@@ -327,8 +327,7 @@ def optimize_sancho_cycle(
         stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + hp_inc * int(sh.get("heal_pct", 0))
 
         # 설탕유리조각 방어 관통 상한 재검사 생략
-
-        heal  = sancho_calc_heal_per_cycle(stats)
+        
         cycle = sancho_cycle_damage(stats, party)
 
         cur = {
