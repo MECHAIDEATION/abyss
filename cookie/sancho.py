@@ -202,7 +202,6 @@ def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, 
         "breakdown_passive": breakdown["passive"],
         "breakdown_strike": breakdown["strike"],
         "breakdown_unique": breakdown["unique"],
-        "promo_on": promo_on,
     }
 
 # 최적화 루프
