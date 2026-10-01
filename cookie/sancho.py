@@ -52,7 +52,7 @@ BASE_STATS_SANCHO = {
 # 로테이션 토큰
 # =====================================================
 
-CHAR_CYCLE_TOKENS = [
+SANCHO_CYCLE_TOKENS = [
     "U", "ES", "S"
     "B1", "B2", "B3",
     "B1", "B2", "B3",
@@ -78,9 +78,9 @@ SANCHO_ESPECIAL = (21.30 + 25.56)
 SANCHO_ULT = (1.42 * 15.0) + 28.4
 
 # 패시브(딜) 근사(기존 근사 유지)
-# CHAR_PASSIVE_TRIGGER_INTERVAL = 1.0  # 패시브 발동 간격
-# CHAR_PASSIVE_PER_TRIGGER      = (2.0 * 3.55) + (9.94 / 3.0)  # 패시브 1회 발동 피해 계수 = 10.413
-# CHAR_PASSIVE_COEFF_PER_SEC    = CHAR_PASSIVE_PER_TRIGGER / CHAR_PASSIVE_TRIGGER_INTERVAL  # 패시브 초당 피해 계수 10.413
+# SANCHO_PASSIVE_TRIGGER_INTERVAL = 1.0  # 패시브 발동 간격
+# SANCHO_PASSIVE_PER_TRIGGER      = (2.0 * 3.55) + (9.94 / 3.0)  # 패시브 1회 발동 피해 계수 = 10.413
+# SANCHO_PASSIVE_COEFF_PER_SEC    = SANCHO_PASSIVE_PER_TRIGGER / SANCHO_PASSIVE_TRIGGER_INTERVAL  # 패시브 초당 피해 계수 10.413
 
 SANCHO_PASSIVE_TRIGGER_INTERVAL = 4.0
 
@@ -89,11 +89,11 @@ SANCHO_PASSIVE_TRIGGER_INTERVAL = 4.0
 # =====================================================
 # 회복 이벤트 및 아티팩트 반영
 # =====================================================
-def charlotte_heal_event_counts() -> Dict[str, int]:
-    knot_cnt = int(CHAR_KNOT_COUNT_1) + int(CHAR_KNOT_COUNT_2)   # 10
-    soul_cnt = int(CHAR_SOUL_COUNT_1) + int(CHAR_SOUL_COUNT_2)   # 3
+def sancho_heal_event_counts() -> Dict[str, int]:
+    knot_cnt = int(SANCHO_KNOT_COUNT_1) + int(SANCHO_KNOT_COUNT_2)   # 10
+    soul_cnt = int(SANCHO_SOUL_COUNT_1) + int(SANCHO_SOUL_COUNT_2)   # 3
     return {
-        "main_cnt": int(CHAR_HEAL_MAIN_COUNT),
+        "main_cnt": int(SANCHO_HEAL_MAIN_COUNT),
         "knot_cnt": knot_cnt,
         "soul_cnt": soul_cnt,
     }
@@ -107,31 +107,31 @@ SANCHO_PROMO_ENABLED = True
 # =====================================================
 # 시간·회복·피해 계산
 # =====================================================
-def charlotte_cycle_total_time() -> float:
+def sancho_cycle_total_time() -> float:
     return 30.0
 
-def charlotte_calc_final_atk(stats: Dict[str, float]) -> float:
+def sancho_calc_final_atk(stats: Dict[str, float]) -> float:
     return calc_attack_value(stats, floor_result=False)
 
-def charlotte_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
+def sancho_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
     """샬롯맛 쿠키 사이클 회복량"""
-    total_time = charlotte_cycle_total_time()
-    final_atk  = charlotte_calc_final_atk(stats)
+    total_time = sancho_cycle_total_time()
+    final_atk  = sancho_calc_final_atk(stats)
 
-    counts = charlotte_heal_event_counts()
+    counts = sancho_heal_event_counts()
     main_cnt = int(counts["main_cnt"])
     knot_cnt = int(counts["knot_cnt"])
     soul_cnt = int(counts["soul_cnt"])
 
     heal_mult = 1.0 + float(stats.get("heal_pct", 0.0))
 
-    ult_heal_mult = float(CHAR_ULT_HEAL_PROMO_MULT)
+    ult_heal_mult = float(SANCHO_ULT_HEAL_PROMO_MULT)
 
     # 성급 효과 "궁극기 회복량 +20%"는 궁극기 회복에 속한
     # 즉시 회복·매듭 회복 전용
-    heal_main = final_atk * CHAR_HEAL_MAIN_RATIO * main_cnt * heal_mult * ult_heal_mult
-    heal_knot = final_atk * CHAR_HEAL_KNOT_RATIO * knot_cnt * heal_mult * ult_heal_mult
-    heal_soul = final_atk * CHAR_SOUL_HEAL_RATIO * soul_cnt * heal_mult
+    heal_main = final_atk * SANCHO_HEAL_MAIN_RATIO * main_cnt * heal_mult * ult_heal_mult
+    heal_knot = final_atk * SANCHO_HEAL_KNOT_RATIO * knot_cnt * heal_mult * ult_heal_mult
+    heal_soul = final_atk * SANCHO_SOUL_HEAL_RATIO * soul_cnt * heal_mult
 
     total_heal = heal_main + heal_knot + heal_soul
     hps        = total_heal / total_time if total_time > 0 else 0.0
@@ -153,9 +153,9 @@ def charlotte_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
 # =====================================================
 # 사이클 피해 계산
 # =====================================================
-def charlotte_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, float]:
-    total_time = charlotte_cycle_total_time()
-    promo_on = bool(stats.get("_char_promo_on", 0.0)) and bool(CHARLOTTE_PROMO_ENABLED)
+def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, float]:
+    total_time = sancho_cycle_total_time()
+    promo_on = bool(stats.get("_char_promo_on", 0.0)) and bool(sancho_PROMO_ENABLED)
 
     direct = 0.0
     breakdown = {
@@ -170,17 +170,17 @@ def charlotte_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[st
     }
 
     b_toggle = 0
-    for tok in CHAR_CYCLE_TOKENS:
+    for tok in SANCHO_CYCLE_TOKENS:
         if tok == "B1":
             b_toggle ^= 1
-            coeff = SANCHO_BASIC_1 if b_toggle == 1 else CHAR_BASIC_2
+            coeff = SANCHO_BASIC_1 if b_toggle == 1 else SANCHO_BASIC_2
             dmg = skill_damage_from_start(stats, coeff, "basic")
             direct += dmg
             breakdown["basic"] += dmg
 
         if tok == "B2":
             b_toggle ^= 1
-            coeff = SANCHO_BASIC_2 if b_toggle == 2 else CHAR_BASIC_3
+            coeff = SANCHO_BASIC_2 if b_toggle == 2 else SANCHO_BASIC_3
             dmg = skill_damage_from_start(stats, coeff, "basic")
             direct += dmg
             breakdown["basic"] += dmg
@@ -210,9 +210,9 @@ def charlotte_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[st
     # 패시브: 아티팩트(공허/유실) 배율 + (승급) 패시브 피해 +100%
     passive_mult = float(stats.get("passive_dmg_mult", 1.0))
     if promo_on:
-        passive_mult *= float(CHAR_PROMO_PASSIVE_DMG_MULT)
+        passive_mult *= float(SANCHO_PROMO_PASSIVE_DMG_MULT)
 
-    passive_total = skill_damage_from_start(stats, (CHAR_PASSIVE_COEFF_PER_SEC * total_time), "passive", extra_skill_mult=passive_mult)
+    passive_total = skill_damage_from_start(stats, (SANCHO_PASSIVE_COEFF_PER_SEC * total_time), "passive", extra_skill_mult=passive_mult)
     breakdown["passive"] = passive_total
 
     strike = strike_total_from_direct(direct, "샬롯맛 쿠키", stats, party)  # <-- 외부 함수
@@ -223,7 +223,7 @@ def charlotte_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[st
 
     total_damage = math.floor(direct + passive_total + strike + unique_total)
 
-    if CHARLOTTE_APPLY_ELEM_MULT_IN_DAMAGE:
+    if SANCHOLOTTE_APPLY_ELEM_MULT_IN_DAMAGE:
         total_damage *= float(stats.get("elem_dmg_mult", 1.0))
 
     dps = total_damage / 30.0
