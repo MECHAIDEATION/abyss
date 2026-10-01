@@ -121,7 +121,7 @@ def sancho_calc_support_metrics(stats: Dict[str, float]) -> Dict[str, float]:
 # =====================================================
 # 사이클 피해 계산
 # =====================================================
-support = sancho_calc_support_metrics
+support = sancho_calc_support_metrics(stats)
 def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, float]:
     total_time = sancho_cycle_total_time()
 
