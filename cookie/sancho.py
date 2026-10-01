@@ -129,7 +129,6 @@ def sancho_calc_support_metrics(stats: Dict[str, float]) -> Dict[str, float]:
 # =====================================================
 def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, float]:
     total_time = sancho_cycle_total_time()
-    promo_on = bool(stats.get("_char_promo_on", 0.0)) and bool(sancho_PROMO_ENABLED)
 
     direct = 0.0
     breakdown = {
@@ -327,7 +326,7 @@ def optimize_sancho_cycle(
         stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + hp_inc * int(sh.get("heal_pct", 0))
 
         # 설탕유리조각 방어 관통 상한 재검사 생략
-        
+
         cycle = sancho_cycle_damage(stats, party)
 
         cur = {
