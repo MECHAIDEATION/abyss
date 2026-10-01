@@ -246,7 +246,7 @@ def charlotte_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[st
 # =====================================================
 # 최적화
 # =====================================================
-def optimize_char_cycle(
+def optimize_sancho_cycle(
     seaz_name: str,
     party: List[str],
     party_seaz: Optional[Dict[str, str]] = None,
@@ -259,19 +259,19 @@ def optimize_char_cycle(
     potential_override: Optional[Dict[str, int]] = None,
 ) -> Optional[dict]:
     cookie = "샬롯맛 쿠키"
-    base   = BASE_STATS_CHARLOTTE[cookie].copy()
+    base   = BASE_STATS_SANCHO[cookie].copy()
 
-    equip_name    = CHARLOTTE_FIXED_EQUIP
-    artifact_name = CHARLOTTE_FIXED_ARTIFACT
-    pot           = dict(potential_override) if potential_override is not None else dict(CHARLOTTE_FIXED_POT)
-    uniques = _resolve_unique_list_override(unique_override, [CHARLOTTE_FIXED_UNIQUE])
-    unique_name = uniques[0] if uniques else CHARLOTTE_FIXED_UNIQUE
+    equip_name    = SANCHO_FIXED_EQUIP
+    artifact_name = SANCHO_FIXED_ARTIFACT
+    pot           = dict(potential_override) if potential_override is not None else dict(SANCHO_FIXED_POT)
+    uniques = _resolve_unique_list_override(unique_override, [SANCHO_FIXED_UNIQUE])
+    unique_name = uniques[0] if uniques else SANCHO_FIXED_UNIQUE
 
     if isinstance(equip_override, str) and equip_override.strip():
         equip_name = equip_override.strip()
 
     # 시즈 허용 목록 교정
-    fn_seaz = globals().get("char_allowed_seaz", None) or globals().get("charlotte_allowed_seaz", None)
+    fn_seaz = globals().get("sancho_allowed_seaz", None) or globals().get("sancho_allowed_seaz", None)
     if callable(fn_seaz):
         allowed = fn_seaz() or []
         if allowed and (seaz_name not in allowed):
@@ -323,7 +323,7 @@ def optimize_char_cycle(
     )
 
     # 딜쪽 승급 토글(패시브 +100% 같은 최소 반영이 필요하면 사용)
-    template["_char_promo_on"] = 1.0 if CHARLOTTE_PROMO_ENABLED else 0.0
+    template["_char_promo_on"] = 1.0 if SANCHO_PROMO_ENABLED else 0.0
 
     if not is_valid_by_caps(template):  # <-- 외부 함수
         emit(1.0)
@@ -347,8 +347,8 @@ def optimize_char_cycle(
 
         # 설탕유리조각 방어 관통 상한 재검사 생략
 
-        heal  = charlotte_calc_heal_per_cycle(stats)
-        cycle = charlotte_cycle_damage(stats, party)
+        heal  = sancho_calc_heal_per_cycle(stats)
+        cycle = sancho_cycle_damage(stats, party)
 
         cur = {
             "cookie": cookie,
