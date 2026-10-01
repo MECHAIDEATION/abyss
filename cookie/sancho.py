@@ -189,9 +189,6 @@ def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, 
 
     total_damage = math.floor(direct + strike + unique_total)
 
-    if SANCHOLOTTE_APPLY_ELEM_MULT_IN_DAMAGE:
-        total_damage *= float(stats.get("elem_dmg_mult", 1.0))
-
     dps = total_damage / 30.0
 
     return {
