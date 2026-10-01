@@ -2433,7 +2433,7 @@ def _assumed_neon_buff_amp_for_party() -> float:
     return ba
 
 def _assumed_sancho_buff_amp_for_party() -> float:
-    from .sancho_danish import (
+    from .sancho import (
         BASE_STATS_NEON,
         SANCHO_POTENTIALS_FIXED,
         SANCHO_FIXED_ARTIFACT,
