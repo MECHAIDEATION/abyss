@@ -39,7 +39,7 @@ COOKIE_TYPE = {
     "스타더스트 쿠키": "shoot",
     "잭프루트맛 쿠키": "slash",
     "스테인드누가맛 쿠키": "strike",
-    "산초맛 쿠키": "smash",
+    "산초맛 쿠키": "support",
 }
 
 COOKIE_ROLE = {
