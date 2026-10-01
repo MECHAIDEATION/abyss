@@ -2184,7 +2184,7 @@ def build_damage_context(stats: Dict[str, float]) -> Dict[str, float]:
     elem_res_mult = 1.0 - eff_resist
 
     basic_mult = (1.0 + float(get("basic_dmg", 0.0))) * (1.0 + float(get("enemy_basic_taken_inc", 0.0)))
-    special_mult = 1.0 + float(get("special_dmg", 0.0))
+    special_mult = (1.0 + float(get("special_dmg", 0.0))) * (1.0 + float(get("enemy_special_taken_inc", 0.0)))
     ult_mult = (1.0 + float(get("ult_dmg", 0.0))) * (1.0 + float(get("enemy_ult_taken_inc", 0.0)))
     passive_mult = (
         (1.0 + float(get("passive_dmg", 0.0)))
@@ -2640,7 +2640,7 @@ def _apply_sancho_main_effects(stats: Dict[str, float], main_cookie_name: str) -
     stats["final_atk_mult"] = float(stats.get("final_atk_mult", 0.0)) + add_final_atk
     stats["buff_final_atk_mult"] = float(stats.get("buff_final_atk_mult", 0.0)) + add_final_atk
     stats["special_dmg"] = float(stats.get("special_dmg", 0.0)) + add_special_dmg
-    stats["enemy_special_taken_inc"] = float(stats.get("enemy_ult_taken_inc", 0.0)) + (0.08 + 0.058)
+    stats["enemy_special_taken_inc"] = float(stats.get("enemy_special_taken_inc", 0.0)) + (0.08 + 0.058)
 
 def _apply_party_amp_totals(stats: Dict[str, float], party: List[str], main_cookie_name: str) -> None:
 
