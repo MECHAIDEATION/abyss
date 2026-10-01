@@ -104,7 +104,6 @@ def sancho_calc_final_atk(stats: Dict[str, float]) -> float:
 def sancho_calc_support_metrics(stats: Dict[str, float]) -> Dict[str, float]:
     total_time = sancho_cycle_total_time()
     final_atk = sancho_calc_final_atk(stats)
-    final_hp = sancho_calc_final_hp(stats)
     heal_mult = 1.0 + float(stats.get("heal_pct", 0.0))
 
     hold_cnt = sum(1 for t in SANCHO_CYCLE_TOKENS if t == "S")
@@ -302,10 +301,11 @@ def optimize_sancho_cycle(
         if (done % tick) == 0:
             emit(done / total)
 
-        stats["elem_atk"] = float(stats.get("elem_atk", 0.0)) + ea_inc * int(sh.get("elem_atk", 0))
-        stats["atk_pct"]  = float(stats.get("atk_pct", 0.0))  + ap_inc * int(sh.get("atk_pct", 0))
-        stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + hp_inc * int(sh.get("heal_pct", 0))
         stats = dict(template)
+        stats["elem_atk"] = float(stats.get("elem_atk", 0.0)) + float(SHARD_INC.get("elem_atk", 0.0)) * int(sh.get("elem_atk", 0))
+        stats["atk_pct"] = float(stats.get("atk_pct", 0.0)) + float(SHARD_INC.get("atk_pct", 0.0)) * int(sh.get("atk_pct", 0))
+        stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + float(SHARD_INC.get("heal_pct", 0.0)) * int(sh.get("heal_pct", 0))
+        stats["shield_pct"] = float(stats.get("shield_pct", 0.0)) + float(SHARD_INC.get("shield_pct", 0.0)) * int(sh.get("shield_pct", 0))
 
         # 설탕유리조각 방어 관통 상한 재검사 생략
 
