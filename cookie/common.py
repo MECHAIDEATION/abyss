@@ -2434,7 +2434,7 @@ def _assumed_neon_buff_amp_for_party() -> float:
 
 def _assumed_sancho_buff_amp_for_party() -> float:
     from .sancho import (
-        BASE_STATS_NEON,
+        BASE_STATS_SANCHO,
         SANCHO_POTENTIALS_FIXED,
         SANCHO_FIXED_ARTIFACT,
     )
