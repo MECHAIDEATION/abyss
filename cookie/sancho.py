@@ -91,14 +91,6 @@ SANCHO_PASSIVE_TRIGGER_INTERVAL = 4.0
 # =====================================================
 # 회복 이벤트 및 아티팩트 반영
 # =====================================================
-def sancho_heal_event_counts() -> Dict[str, int]:
-    knot_cnt = int(SANCHO_KNOT_COUNT_1) + int(SANCHO_KNOT_COUNT_2)   # 10
-    soul_cnt = int(SANCHO_SOUL_COUNT_1) + int(SANCHO_SOUL_COUNT_2)   # 3
-    return {
-        "main_cnt": int(SANCHO_HEAL_MAIN_COUNT),
-        "knot_cnt": knot_cnt,
-        "soul_cnt": soul_cnt,
-    }
 
 # 승급 최소 반영 토글(딜 계산 전용)
 # - 회복 횟수 고정
