@@ -104,7 +104,6 @@ def sancho_calc_final_atk(stats: Dict[str, float]) -> float:
 def sancho_calc_support_metrics(stats: Dict[str, float]) -> Dict[str, float]:
     total_time = sancho_cycle_total_time()
     final_atk = sancho_calc_final_atk(stats)
-    final_hp = sancho_calc_final_hp(stats)
     heal_mult = 1.0 + float(stats.get("heal_pct", 0.0))
 
     hold_cnt = sum(1 for t in SANCHO_CYCLE_TOKENS if t == "S")
