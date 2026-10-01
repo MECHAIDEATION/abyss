@@ -19,3 +19,4 @@ from .milky_way import *  # noqa: F401,F403
 from .stardust import *  # noqa: F401,F403
 from .jackfruit import *  # noqa: F401,F403
 from .stained_nougat import *  # noqa: F401,F403
+from .sancho import *  # noqa: F401,F403
