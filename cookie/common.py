@@ -1522,7 +1522,7 @@ def apply_party_buffs(
 
         # 아티팩트 치트키·치명적 오류: 궁극기 받는 피해 증가
         stats["enemy_special_taken_inc"] = float(stats.get("enemy_special_taken_inc", 0.0)) + (
-            SANCHO_PARTY_ENEMY_SPECIAL_TAKEN_INC = 0.15
+            SANCHO_PARTY_ENEMY_SPECIAL_TAKEN_INC := 0.15
         )
 
 
