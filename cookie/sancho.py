@@ -187,7 +187,7 @@ def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, 
     unique_total = skill_damage_from_start(stats, float(stats.get("unique_extra_coeff", 0.0)), "none") * total_time
     breakdown["unique"] = unique_total
 
-    total_damage = math.floor(direct + passive_total + strike + unique_total)
+    total_damage = math.floor(direct + strike + unique_total)
 
     if SANCHOLOTTE_APPLY_ELEM_MULT_IN_DAMAGE:
         total_damage *= float(stats.get("elem_dmg_mult", 1.0))
