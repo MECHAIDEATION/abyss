@@ -146,7 +146,7 @@ def calculate_party_damage_contributions(
         "이슬맛 쿠키": (optimize_isle_cycle, max(1, int(support_step))),
         "샬롯맛 쿠키": (optimize_char_cycle, max(1, int(support_step))),
         "네온데니쉬맛 쿠키": (optimize_neon_cycle, 1),
-        "산초맛 쿠키": (optimize_sancho_cycle, 1),
+        "산초맛 쿠키": (optimize_char_cycle, max(1, int(support_step))),
         "달빛술사 쿠키": (optimize_moonlight_cycle, 1),
     }
 
