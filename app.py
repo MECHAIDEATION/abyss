@@ -106,7 +106,7 @@ from ui.shard_placement import render_shard_placement_tab
 # =====================================================
 # 페이지 설정 및 기본 스타일
 # =====================================================
-st.set_page_config(page_title="THE ABYSS RAID COOKIE LAB", layout="wide")
+st.set_page_config(page_title="THE ABYSS RAID COOKIE LAB - CONTINUED", layout="wide")
 
 # 화면 테마 선택값
 # - 기기 설정: 브라우저 색상 설정 연동
@@ -2666,7 +2666,8 @@ _note_calc = (
     if _english_on()
     else "일부 스탯은 가산/배율 적용이 함께 반영되어, 단순 합산값과 다를 수 있습니다."
 )
-_note_contact = "For inquiries: Epsilon24@gmail.com" if _english_on() else "기타 문의 : Epsilon24@gmail.com"
+_note_contact = "For inquiries: sherrver21@gmail.com or sawbl1ss on Discord." if _english_on() else "기타 문의 : sherrver21@gmail.com, Discord : sawbl1ss"
+_epsilon_military_obituary = "All credit for the original code of this website belongs to Epsilon024, and this website is only public because I believe that it is right to do so to ensure that this website stays updated with the latest Cookies. If Epsilon wishes, I will take this down."  if _english_on() else "아래 내용은 제가 한국어를 이해하지 못하기 때문에 구글 번역을 사용한 것이므로 번역 품질이 다소 떨어지는 점 양해 부탁드립니다. 이 웹사이트의 원본 코드는 Epsilon024님의 소유이며, 저는 이 웹사이트가 최신 쿠키를 반영하여 업데이트될 수 있도록 공개하는 것이 옳다고 판단하여 공개했습니다. Epsilon님이 원하시면 언제든지 삭제하겠습니다. 이 웹사이트를 수정하는 과정에서 인공지능은 전혀 사용되지 않았습니다."
 st.markdown(
 f"""
 <div class="global-note">
@@ -2675,6 +2676,7 @@ f"""
     • {_html.escape(_note_copyright)}<br/>
     • {_html.escape(_note_calc)}<br/>
     • <b>{_html.escape(_note_contact)}</b>
+    • <b>{_html.escape(_epsilon_military_obituary)}</b>
   </p>
 </div>
 """,
