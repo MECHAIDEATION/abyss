@@ -5,7 +5,7 @@ from .common import *
 from .common import _resolve_unique_list_override
 
 # =====================================================
-# 샬롯맛 쿠키
+# 산초맛 쿠키
 # =====================================================
 # 회복 최적화: 이벤트 횟수 기준
 # 회복 이벤트: 궁 1회·매듭 10회·영혼꿰기 3회
@@ -114,7 +114,7 @@ def sancho_calc_final_atk(stats: Dict[str, float]) -> float:
     return calc_attack_value(stats, floor_result=False)
 
 def sancho_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
-    """샬롯맛 쿠키 사이클 회복량"""
+    """산초맛 쿠키 사이클 회복량"""
     total_time = sancho_cycle_total_time()
     final_atk  = sancho_calc_final_atk(stats)
 
@@ -215,7 +215,7 @@ def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, 
     passive_total = skill_damage_from_start(stats, (SANCHO_PASSIVE_COEFF_PER_SEC * total_time), "passive", extra_skill_mult=passive_mult)
     breakdown["passive"] = passive_total
 
-    strike = strike_total_from_direct(direct, "샬롯맛 쿠키", stats, party)  # <-- 외부 함수
+    strike = strike_total_from_direct(direct, "산초맛 쿠키", stats, party)  # <-- 외부 함수
     breakdown["strike"] = strike
 
     unique_total = skill_damage_from_start(stats, float(stats.get("unique_extra_coeff", 0.0)), "none") * total_time
@@ -258,7 +258,7 @@ def optimize_sancho_cycle(
     unique_override: Optional[Union[str, List[str], Tuple[str, ...], set]] = None,
     potential_override: Optional[Dict[str, int]] = None,
 ) -> Optional[dict]:
-    cookie = "샬롯맛 쿠키"
+    cookie = "산초맛 쿠키"
     base   = BASE_STATS_SANCHO[cookie].copy()
 
     equip_name    = SANCHO_FIXED_EQUIP
