@@ -48,6 +48,16 @@ BASE_STATS_SANCHO = {
     }
 }
 
+SANCHO_POTENTIALS_FIXED = {
+    "elem_atk": 2,
+    "atk_pct": 2,
+    "buff_amp": 4,
+    "crit_rate": 0,
+    "crit_dmg": 0,
+    "armor_pen": 0,
+    "debuff_amp": 0,
+}
+
 # =====================================================
 # 로테이션 토큰
 # =====================================================
