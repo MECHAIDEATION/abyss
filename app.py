@@ -470,7 +470,7 @@ def _party_unique_options_for_cookie(cookie_name: str) -> tuple[list[str], str]:
             "나비스의 기억",
             "윈드파라거스 쿠키의 기억",
         ]
-        if cookie_name in ("이슬맛 쿠키", "샬롯맛 쿠키", "네온데니쉬맛 쿠키"):
+        if cookie_name in ("이슬맛 쿠키", "샬롯맛 쿠키", "네온데니쉬맛 쿠키", "산초맛 쿠키"):
             return support_options, "정화된 에메랄딘의 기억"
         if cookie_name == "달빛술사 쿠키":
             return support_options, "데스파라거스의 기억"
