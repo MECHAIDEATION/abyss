@@ -286,7 +286,7 @@ def optimize_sancho_cycle(
 
     def sancho_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
         """산초맛 쿠키 사이클 회복량"""
-        total_time = sancho_cycle_total_time_cycle_total_time()
+        total_time = sancho_cycle_total_time()
         final_atk  = sancho_calc_final_atk_calc_final_atk(stats)
 
         counts = sancho_heal_event_counts()
