@@ -289,11 +289,11 @@ def optimize_sancho_cycle(
         total_time = sancho_cycle_total_time()
         final_atk  = sancho_calc_final_atk(stats)
 
-
         heal_mult = 1.0 + float(stats.get("heal_pct", 0.0))
 
         # 성급 효과 "궁극기 회복량 +20%"는 궁극기 회복에 속한
         # 즉시 회복·매듭 회복 전용
+        hold_cnt = sum(1 for t in SANCHO_CYCLE_TOKENS if t == "S")    
         heal_hold = final_atk * SANCHO_CHARGE_HEAL_RATIO * hold_cnt * heal_mult
 
         total_heal = heal_main + heal_knot + heal_soul
