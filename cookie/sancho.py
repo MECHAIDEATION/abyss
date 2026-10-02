@@ -296,7 +296,7 @@ def optimize_sancho_cycle(
         hold_cnt = sum(1 for t in SANCHO_CYCLE_TOKENS if t == "S")    
         heal_hold = final_atk * SANCHO_CHARGE_HEAL_RATIO * hold_cnt * heal_mult
 
-        total_heal = heal_main + heal_knot + heal_soul
+        total_heal = heal_hold
         hps        = total_heal / total_time if total_time > 0 else 0.0
 
         return {
