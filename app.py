@@ -2012,7 +2012,7 @@ with st.container(key="outer_shell", border=False):
                         if strike_cookie and picked_strike_unique:
                             party_uniques_map[strike_cookie] = picked_strike_unique
 
-                    elif cookie in ("이슬맛 쿠키", "샬롯맛 쿠키", "네온데니쉬맛 쿠키", "달빛술사 쿠키"):
+                    elif cookie in ("이슬맛 쿠키", "샬롯맛 쿠키", "네온데니쉬맛 쿠키", "달빛술사 쿠키", "산초맛 쿠키"):
                         strike_cookie = st.session_state.get(p1k, "윈드파라거스 쿠키")
                         picked_equip, picked_seaz, picked_unique = _render_party_detail("파티(스트)", strike_cookie, pe1k, ps1k, pu1k)
                         if strike_cookie and picked_equip:
