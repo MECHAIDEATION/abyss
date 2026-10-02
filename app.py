@@ -2578,7 +2578,7 @@ with st.container(key="outer_shell", border=False):
                     c2.metric(_tr_text("회복량"), f"{best.get('max_heal', 0):,.0f}")
                     c3.metric("DPS", f"{best.get('dps', 0):,.4f}")
 
-                elif kind == "char":
+                elif kind == "sancho":
                     c1, c2, c3 = st.columns(3, gap="small")
                     c1.metric(_tr_text("회복량"), f"{best.get('max_heal', 0):,.0f}")
                     c2.metric("DPS", f"{best.get('dps', 0):,.4f}")
