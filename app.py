@@ -69,7 +69,7 @@ from ui.result_helpers import (
 )
 
 # =====================================================
-# 화면 모듈
+#screen module
 # =====================================================
 from ui.styles import inject_styles
 from ui.translations import (
@@ -104,13 +104,13 @@ from ui.adjustment_notes import (
 from ui.shard_placement import render_shard_placement_tab
 
 # =====================================================
-# 페이지 설정 및 기본 스타일
+#Page setup and default styles
 # =====================================================
 st.set_page_config(page_title="THE ABYSS RAID COOKIE LAB - CONTINUED", layout="wide")
 
-# 화면 테마 선택값
-# - 기기 설정: 브라우저 색상 설정 연동
-# - 라이트·다크: 사용자 고정
+# Screen theme selection value
+# -Device settings: Link to browser color settings
+# -Light/Dark: Fixed by user
 THEME_OPTIONS = ("system", "light", "dark")
 SEASON_OPTIONS = ("season1", "season2", "season3", "season4")
 if st.session_state.get("ui_theme") not in THEME_OPTIONS:
@@ -159,9 +159,9 @@ inject_styles()
 init_session_state()
 sim.set_active_unique_season(st.session_state.get("ui_season_widget", "season4"))
 
-# =====================================================
-# 메인 쿠키 잠재력 설정
-# =====================================================
+# =====================================================================
+# Set main cookie potential
+# =====================================================================
 POTENTIAL_SETTING_ORDER = (
     "elem_atk",
     "atk_pct",
@@ -198,8 +198,8 @@ def _normalize_potential_config(raw) -> dict[str, int]:
     }
 
 def _default_manual_potential(cookie_name: str, selected_equip: str = "") -> dict[str, int]:
-    # 수동 잠재력 최초값: 자동 최적화·고정값 제외
-    # 사용자가 처음 수동으로 전환했을 때 모든 항목이 0에서 시작
+# Manual potential initial value: excluding automatic optimization and fixed values
+    # All entries start at 0 when the user first switches to manual
     return _normalize_potential_config({})
 
 def _invalidate_result_for_potential_change() -> None:
@@ -208,15 +208,15 @@ def _invalidate_result_for_potential_change() -> None:
     st.session_state.last_run = None
 
 def _potential_saved_key(kind: str) -> str:
-    # 잠재력 확정값: 편집 위젯 키와 분리 보관
+# Potential confirmed value: stored separately from the edit widget key
     return f"potential_saved__{kind}"
 
 def _potential_editor_value_key(kind: str, stat_key: str) -> str:
-    # 잠재력 편집용 위젯 키
+    # Widget keys for editing potential
     return f"potential_editor__{kind}__{stat_key}"
 
 def _potential_user_saved_key(kind: str) -> str:
-    # 사용자 확정 수동값 상태
+    # User confirmed manual value status
     return f"potential_user_saved__{kind}"
 
 def _ensure_potential_state(cookie_name: str, kind: str, selected_equip: str = "") -> None:
@@ -228,13 +228,13 @@ def _ensure_potential_state(cookie_name: str, kind: str, selected_equip: str = "
     user_saved_key = _potential_user_saved_key(kind)
 
     if user_saved_key not in st.session_state:
-        # 구버전 수동 시작값 초기화
+        # Reset old version manual startup values
         st.session_state[user_saved_key] = False
         st.session_state[saved_key] = _default_manual_potential(cookie_name, selected_equip)
     elif saved_key not in st.session_state:
         st.session_state[saved_key] = _default_manual_potential(cookie_name, selected_equip)
     else:
-        # 확정 수동값 유지
+        # Maintain confirmed manual values
         st.session_state[saved_key] = _normalize_potential_config(st.session_state.get(saved_key))
 
 def _manual_potential_from_state(kind: str) -> dict[str, int] | None:
@@ -243,7 +243,7 @@ def _manual_potential_from_state(kind: str) -> dict[str, int] | None:
     return _normalize_potential_config(st.session_state.get(_potential_saved_key(kind)))
 
 def _on_potential_mode_change(kind: str) -> None:
-    # 자동·수동 전환 결과 초기화 및 수동값 복원
+    # Initializing automatic/manual conversion results and restoring manual values
     _invalidate_result_for_potential_change()
     if bool(st.session_state.get(potential_manual_key(kind), False)):
         saved = _normalize_potential_config(st.session_state.get(_potential_saved_key(kind)))
@@ -732,7 +732,7 @@ def _party_equip_options_for_cookie(
         opts = keep(["시간관리국의 제복", "유성우의 향연"])
         preferred = "시간관리국의 제복"
     elif cookie_name == "네온데니쉬맛 쿠키":
-        # 샤이닝베리 메인 파티 서폿 네온데니쉬는 세부사항 기본 장비를 유령해적으로 표시
+# Shining Berry's main party support neon danish displays the detailed basic equipment as a ghost pirate.
         if main_cookie_name == "샤이닝베리맛 쿠키":
             opts = keep(["전설의 유령해적", "영원의 대마술사"])
             preferred = "전설의 유령해적"
@@ -740,8 +740,8 @@ def _party_equip_options_for_cookie(
             opts = keep(["영원의 대마술사", "전설의 유령해적"])
             preferred = "영원의 대마술사"
     elif cookie_name == "체리콜라맛 쿠키":
-        # 체리콜라는 스트라이커 장비만 사용
-        # 단, 최적화의 잠재/일반 설탕유리조각 후보는 딜러형으로 계산
+# Cherry Cola only uses striker equipment
+        # However, potential/general sugar glass fragment candidates for optimization are calculated as dealer type
         opts = keep(["황금 예복", "유성우의 향연"])
         preferred = "황금 예복"
     elif cookie_name == "스테인드누가맛 쿠키":
@@ -2542,7 +2542,7 @@ with st.container(key="outer_shell", border=False):
                 st.rerun()
 
     # =====================================================
-    # 우측: 결과
+    # Right: Results
     # =====================================================
     with right_col:
         with st.container(key="panel_result", border=True):
@@ -2578,11 +2578,11 @@ with st.container(key="outer_shell", border=False):
                     c2.metric(_tr_text("회복량"), f"{best.get('max_heal', 0):,.0f}")
                     c3.metric("DPS", f"{best.get('dps', 0):,.4f}")
 
-                elif kind == "sancho":
+                elif kind == "char":
                     c1, c2, c3 = st.columns(3, gap="small")
-                    c1.metric(_tr_text("보호막량"), f"{best.get('max_shield', 0):,.0f}")
-                    c2.metric(_tr_text("회복량"), f"{best.get('max_heal', 0):,.0f}")
-                    c3.metric("DPS", f"{best.get('dps', 0):,.4f}")
+                    c1.metric(_tr_text("회복량"), f"{best.get('max_heal', 0):,.0f}")
+                    c2.metric("DPS", f"{best.get('dps', 0):,.4f}")
+                    c3.metric(_tr_text("1사이클 총딜"), f"{best.get('cycle_total_damage', 0):,.0f}")
 
 
                 def _current_sugar_set_text() -> str:
@@ -2734,7 +2734,7 @@ with st.container(key="outer_shell", border=False):
                 st.caption(f"{_tr_text('실행:')} {st.session_state.last_run}")
 
 # =====================================================
-# 전체 안내문
+# Full notice
 # =====================================================
 _note_copyright = (
     "Copyright for the CookieRun: Tower of Adventures resources used in THE ABYSS RAID COOKIE LAB - CONTINUED belongs to Devsisters."
