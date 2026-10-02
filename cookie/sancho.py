@@ -284,8 +284,6 @@ def optimize_sancho_cycle(
                         party_sets=party_sets,
     )
 
-    # 딜쪽 승급 토글(패시브 +100% 같은 최소 반영이 필요하면 사용)
-    template["_char_promo_on"] = 1.0 if SANCHO_PROMO_ENABLED else 0.0
 
     if not is_valid_by_caps(template):  # <-- 외부 함수
         emit(1.0)
@@ -302,13 +300,14 @@ def optimize_sancho_cycle(
             emit(done / total)
 
         stats = dict(template)
-        stats["elem_atk"] = float(stats.get("elem_atk", 0.0)) + float(SHARD_INC.get("elem_atk", 0.0)) * int(sh.get("elem_atk", 0))
-        stats["atk_pct"] = float(stats.get("atk_pct", 0.0)) + float(SHARD_INC.get("atk_pct", 0.0)) * int(sh.get("atk_pct", 0))
-        stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + float(SHARD_INC.get("heal_pct", 0.0)) * int(sh.get("heal_pct", 0))
-        print(stats)
+
+        stats["elem_atk"] = float(stats.get("elem_atk", 0.0)) + ea_inc * int(sh.get("elem_atk", 0))
+        stats["atk_pct"]  = float(stats.get("atk_pct", 0.0))  + ap_inc * int(sh.get("atk_pct", 0))
+        stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + hp_inc * int(sh.get("heal_pct", 0))
 
         # 설탕유리조각 방어 관통 상한 재검사 생략
 
+        heal  = sancho_calc_heal_per_cycle(stats)
         cycle = sancho_cycle_damage(stats, party)
 
         cur = {
@@ -318,7 +317,7 @@ def optimize_sancho_cycle(
             "cycle_total_time": 30.0,
             "cycle_breakdown": cycle,
 
-            "max_heal": float(support["total_heal"]),
+            "max_heal": float(heal["total_heal"]),
             "hps": float(heal["hps"]),
             "heal_detail": heal,
 
