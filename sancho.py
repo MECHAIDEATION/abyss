@@ -120,7 +120,7 @@ def sancho_calc_support_metrics(stats: Dict[str, float]) -> Dict[str, float]:
 # =====================================================
 # 사이클 피해 계산
 # =====================================================
-support = sancho_calc_support_metrics(stats)
+
 def sancho_cycle_damage(stats: Dict[str, float], party: List[str]) -> Dict[str, float]:
     total_time = sancho_cycle_total_time()
 
@@ -284,8 +284,32 @@ def optimize_sancho_cycle(
                         party_sets=party_sets,
     )
 
-    # 딜쪽 승급 토글(패시브 +100% 같은 최소 반영이 필요하면 사용)
-    template["_char_promo_on"] = 1.0 if SANCHO_PROMO_ENABLED else 0.0
+    def sancho_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
+        """산초맛 쿠키 사이클 회복량"""
+        total_time = sancho_cycle_total_time()
+        final_atk  = sancho_calc_final_atk(stats)
+
+        counts = sancho_heal_event_counts()
+        hold_cnt = int(counts["main_cnt"])
+
+        heal_mult = 1.0 + float(stats.get("heal_pct", 0.0))
+
+        # 성급 효과 "궁극기 회복량 +20%"는 궁극기 회복에 속한
+        # 즉시 회복·매듭 회복 전용
+        heal_hold = final_atk * SANCHO_CHARGE_HEAL_RATIO * hold_cnt * heal_mult
+
+        total_heal = heal_main + heal_knot + heal_soul
+        hps        = total_heal / total_time if total_time > 0 else 0.0
+
+        return {
+            "total_time": total_time,
+            "final_atk": final_atk,
+            "heal_hold": heal_hold,
+            "total_heal": total_heal,
+            "hps": hps,
+            "main_cnt": main_cnt,
+    }
+
 
     if not is_valid_by_caps(template):  # <-- 외부 함수
         emit(1.0)
@@ -302,14 +326,16 @@ def optimize_sancho_cycle(
             emit(done / total)
 
         stats = dict(template)
-        stats["elem_atk"] = float(stats.get("elem_atk", 0.0)) + float(SHARD_INC.get("elem_atk", 0.0)) * int(sh.get("elem_atk", 0))
-        stats["atk_pct"] = float(stats.get("atk_pct", 0.0)) + float(SHARD_INC.get("atk_pct", 0.0)) * int(sh.get("atk_pct", 0))
-        stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + float(SHARD_INC.get("heal_pct", 0.0)) * int(sh.get("heal_pct", 0))
-        stats["shield_pct"] = float(stats.get("shield_pct", 0.0)) + float(SHARD_INC.get("shield_pct", 0.0)) * int(sh.get("shield_pct", 0))
+
+        stats["elem_atk"] = float(stats.get("elem_atk", 0.0)) + ea_inc * int(sh.get("elem_atk", 0))
+        stats["atk_pct"]  = float(stats.get("atk_pct", 0.0))  + ap_inc * int(sh.get("atk_pct", 0))
+        stats["heal_pct"] = float(stats.get("heal_pct", 0.0)) + hp_inc * int(sh.get("heal_pct", 0))
 
         # 설탕유리조각 방어 관통 상한 재검사 생략
 
+        heal  = sancho_calc_heal_per_cycle(stats)
         cycle = sancho_cycle_damage(stats, party)
+        support = sancho_calc_support_metrics(stats)
 
         cur = {
             "cookie": cookie,
@@ -318,7 +344,7 @@ def optimize_sancho_cycle(
             "cycle_total_time": 30.0,
             "cycle_breakdown": cycle,
 
-            "max_heal": float(support["total_heal"]),
+            "max_heal": float(heal["total_heal"]),
             "hps": float(heal["hps"]),
             "heal_detail": heal,
 
