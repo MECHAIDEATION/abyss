@@ -1083,7 +1083,7 @@ with st.container(key="outer_shell", border=False):
                     st.session_state.equip = "" if equip == "자동" else equip
 
                 elif cookie == "달빛술사 쿠키":
-                    moon_opts = (getattr(sim, "moonlight_allowed_equips", lambda: ["유성우의 향연"])() or ["유성우의 향연"] or [황금 예복])
+                    moon_opts = (getattr(sim, "moonlight_allowed_equips", lambda: ["유성우의 향연"])() or ["유성우의 향연"] or ["황금 예복"])
                     equip = _equip_select(["자동"] + moon_opts)
                     st.session_state.equip = "" if equip == "자동" else equip
 
