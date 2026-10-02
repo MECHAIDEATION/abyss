@@ -284,6 +284,32 @@ def optimize_sancho_cycle(
                         party_sets=party_sets,
     )
 
+    def sancho_calc_heal_per_cycle(stats: Dict[str, float]) -> Dict[str, float]:
+        """산초맛 쿠키 사이클 회복량"""
+        total_time = sancho_cycle_total_time_cycle_total_time()
+        final_atk  = sancho_calc_final_atk_calc_final_atk(stats)
+
+        counts = sancho_heal_event_counts()
+        hold_cnt = int(counts["main_cnt"])
+
+        heal_mult = 1.0 + float(stats.get("heal_pct", 0.0))
+
+        # 성급 효과 "궁극기 회복량 +20%"는 궁극기 회복에 속한
+        # 즉시 회복·매듭 회복 전용
+        heal_hold = final_atk * SANCHO_CHARGE_HEAL_RATIO * hold_cnt * heal_mult
+
+        total_heal = heal_main + heal_knot + heal_soul
+        hps        = total_heal / total_time if total_time > 0 else 0.0
+
+        return {
+            "total_time": total_time,
+            "final_atk": final_atk,
+            "heal_hold": heal_hold,
+            "total_heal": total_heal,
+            "hps": hps,
+            "main_cnt": main_cnt,
+    }
+
 
     if not is_valid_by_caps(template):  # <-- 외부 함수
         emit(1.0)
