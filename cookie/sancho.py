@@ -289,8 +289,6 @@ def optimize_sancho_cycle(
         total_time = sancho_cycle_total_time()
         final_atk  = sancho_calc_final_atk(stats)
 
-        counts = sancho_heal_event_counts()
-        hold_cnt = int(counts["main_cnt"])
 
         heal_mult = 1.0 + float(stats.get("heal_pct", 0.0))
 
