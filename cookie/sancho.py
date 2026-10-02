@@ -114,7 +114,7 @@ def sancho_calc_support_metrics(stats: Dict[str, float]) -> Dict[str, float]:
         "final_atk": final_atk,
         "total_heal": total_heal,
         "hps": hps,
-        "main_cnt": main_cnt,
+        "main_cnt": hold_cnt,
     }
 
 # =====================================================
@@ -305,7 +305,7 @@ def optimize_sancho_cycle(
             "heal_hold": heal_hold,
             "total_heal": total_heal,
             "hps": hps,
-            "main_cnt": main_cnt,
+            "main_cnt": hold_cnt,
     }
 
 
