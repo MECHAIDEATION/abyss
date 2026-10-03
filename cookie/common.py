@@ -905,7 +905,7 @@ def apply_party_buffs(
             ba += _assumed_neon_buff_amp_for_party()
         elif cookie_name == "산초맛 쿠키":
             ba += _assumed_sancho_buff_amp_for_party()
-        elif cookie_name == "산초맛 쿠키":
+        elif cookie_name == "달빛술사 쿠키":
             moon_unique_raw = ""
             try:
                 u_map = party_uniques or stats.get("party_uniques") or {}
