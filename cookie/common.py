@@ -903,7 +903,7 @@ def apply_party_buffs(
             ba += _assumed_charlotte_buff_amp_for_party()
         elif cookie_name == "네온데니쉬맛 쿠키":
             ba += _assumed_neon_buff_amp_for_party()
-        elif cookie_name == "네온데니쉬맛 쿠키":
+        elif cookie_name == "산초맛 쿠키":
             ba += _assumed_sancho_buff_amp_for_party()
         elif cookie_name == "산초맛 쿠키":
             moon_unique_raw = ""
@@ -1509,15 +1509,10 @@ def apply_party_buffs(
         # Swift Precision: 34.7% ATK Increase. 14.56% Special Skill damage increase.
         add_final_atk = SANCHO_PARTY_FINAL_ATK_BUFF * innate_scale
         stats["final_atk_mult"] = float(stats.get("final_atk_mult", 0.0)) + add_final_atk
-        stats["buff_final_atk_mult"] = float(stats.get("buff_final_atk_mult", 0.0)) + add_final_atk
+        stats["buff_final_atk_mult"] = float(stats.get("buff_final_atk_mult", 0.0)) + add_final_atk + SANCHO_PARTY_ARTI_ATK_ADD
 
         stats["special_dmg"] = float(stats.get("special_dmg", 0.0)) + (
             SANCHO_PARTY_SPECIAL_DMG_BUFF * innate_scale
-        )
-
-        # 아티팩트 관리자 권한: 모든 속성 피해 30%
-        stats["buff_all_elem_dmg_raw"] = float(stats.get("buff_atk_pct_raw", 0.0)) + (
-            SANCHO_PARTY_ARTI_ATK_ADD
         )
 
         # 아티팩트 치트키·치명적 오류: 궁극기 받는 피해 증가
