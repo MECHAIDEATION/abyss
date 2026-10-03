@@ -1245,7 +1245,7 @@ def apply_party_buffs(
         if in_party_sancho and (main_cookie_name != "산초맛 쿠키"):
             sancho_set = _effective_party_support_set("산초맛 쿠키")
 
-            if sancho_set == "영원의 대마술사" and _party_set_effect_first_applicable("네온데니쉬맛 쿠키", neon_set, "all_elem_if_same"):
+            if sancho_set == "영원의 대마술사" and _party_set_effect_first_applicable("네온데니쉬맛 쿠키", sancho_set, "all_elem_if_same"):
                 base = _get_set_effect_base(
                     "영원의 대마술사",
                     fallback={"buff_amp": 0.15, "all_elem_dmg": 0.30},
