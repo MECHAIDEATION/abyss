@@ -717,7 +717,7 @@ def _party_equip_options_for_cookie(
         return [x for x in names if x in all_equips]
 
     def _is_support_cookie(name: str) -> bool:
-        return name in ("이슬맛 쿠키", "샬롯맛 쿠키", "네온데니쉬맛 쿠키", "달빛술사 쿠키")
+        return name in ("이슬맛 쿠키", "샬롯맛 쿠키", "네온데니쉬맛 쿠키", "달빛술사 쿠키", "산초맛 쿠키")
 
     def _is_striker_cookie(name: str) -> bool:
         return name in ("윈드파라거스 쿠키", "룽샤맛 쿠키", "마블베리맛 쿠키", "밀키웨이맛 쿠키", "체리콜라맛 쿠키", "스테인드누가맛 쿠키")
@@ -740,13 +740,13 @@ def _party_equip_options_for_cookie(
             opts = keep(["영원의 대마술사", "전설의 유령해적"])
             preferred = "영원의 대마술사"
     elif cookie_name == "산초맛 쿠키":
-# Shining Berry's main party support neon danish displays the detailed basic equipment as a ghost pirate.
+# sancho code
         if main_cookie_name == "잭프루트맛 쿠키":
             opts = keep(["전설의 유령해적", "영원의 대마술사"])
-            preferred = "전설의 유령해적"
+            preferred = "영원의 대마술사"
         else:
             opts = keep(["영원의 대마술사", "전설의 유령해적"])
-            preferred = "영원의 대마술사"
+            preferred = "전설의 유령해적"
     elif cookie_name == "체리콜라맛 쿠키":
 # Cherry Cola only uses striker equipment
         # However, potential/general sugar glass fragment candidates for optimization are calculated as dealer type
