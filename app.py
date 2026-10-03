@@ -551,6 +551,8 @@ def _party_unique_options_for_cookie(cookie_name: str) -> tuple[list[str], str]:
         return support_options, "달빛술사 쿠키의 기억"
     if cookie_name in ("샬롯맛 쿠키", "네온데니쉬맛 쿠키"):
         return support_options, "멜랑크림 쿠키의 순수한 기억"
+    if cookie_name in ("산초맛 쿠키"): #sancho!
+        return support_options, "멜랑크림 쿠키의 순수한 기억"
     if cookie_name in ("윈드파라거스 쿠키", "룽샤맛 쿠키", "마블베리맛 쿠키", "밀키웨이맛 쿠키", "체리콜라맛 쿠키", "스테인드누가맛 쿠키"):
         return striker_options, "꿈열차에 실린 기억"
     if str(getattr(sim, "COOKIE_ROLE", {}).get(cookie_name, "")).lower() == "dps":
