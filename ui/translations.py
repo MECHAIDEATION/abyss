@@ -29,6 +29,7 @@ _ENGLISH_TXT_FALLBACK = r"""
 피닉스페퍼 쿠키: Phoenix Pepper
 샬롯맛 쿠키: Shallot
 네온데니쉬맛 쿠키: Neon Danish
+산초맛 쿠키: Sancho Cookie
 룽샤맛 쿠키: Mala Longxia
 마블베리맛 쿠키: Marbleberry
 체리콜라맛 쿠키: Cherry Cola Cookie
@@ -83,6 +84,7 @@ _ENGLISH_TXT_FALLBACK = r"""
 축제의 그림자 : Festival Shadows
 희미한 날갯짓 : Faint Wingbeats
 치트키 발견? : Hidden Cheat Item
+진실을 찾아서 : Finding The Truth
 충전은 타이밍 : Well-timed Recharge
 끈적끈적 후폭풍 : Sticky Situation
 오늘도 완벽! : Another Day of Perfection

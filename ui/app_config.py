@@ -21,6 +21,7 @@ COOKIE_KIND = {
     "이슬맛 쿠키": "isle",
     "샬롯맛 쿠키": "char",
     "네온데니쉬맛 쿠키": "neon",
+    "산초맛 쿠키": "sancho",
     "달빛술사 쿠키": "moonlight",
     "밀키웨이맛 쿠키": "milky",
     "스타더스트 쿠키": "stardust",
@@ -46,6 +47,7 @@ COOKIE_ELEMENT = {
     "스타더스트 쿠키": "신비",
     "잭프루트맛 쿠키": "대지",
     "스테인드누가맛 쿠키": "대지",
+    "산초맛 쿠키": "대지",
 }
 
 ELEMENT_OPTIONS = ["전체", "불", "물", "바람", "대지", "빛", "어둠", "신비"]
@@ -69,6 +71,7 @@ ALL_COOKIES = [
     "윈드파라거스 쿠키",
     "이슬맛 쿠키",
     "마블베리맛 쿠키",
+    "산초맛 쿠키",
 ]
 
 SUPPORT_COOKIE_OPTIONS = [
@@ -76,6 +79,7 @@ SUPPORT_COOKIE_OPTIONS = [
     "네온데니쉬맛 쿠키",
     "샬롯맛 쿠키",
     "이슬맛 쿠키",
+    "산초맛 쿠키",
 ]
 
 STRIKE_COOKIE_OPTIONS = [
@@ -113,6 +117,7 @@ DEFAULT_PARTY_SLOT1_BY_KIND = {
     "isle": "윈드파라거스 쿠키",
     "char": "윈드파라거스 쿠키",
     "neon": "윈드파라거스 쿠키",
+    "sancho": "윈드파라거스 쿠키",
     "moonlight": "윈드파라거스 쿠키",
     "milky": "달빛술사 쿠키",
     "stardust": "달빛술사 쿠키",
@@ -139,6 +144,7 @@ DEFAULT_PARTY_SLOT3_BY_KIND = {
     "isle": "멜랑크림 쿠키",
     "char": "멜랑크림 쿠키",
     "neon": "멜랑크림 쿠키",
+    "sancho": "멜랑크림 쿠키",
     "moonlight": "멜랑크림 쿠키",
     "milky": "멜랑크림 쿠키",
     "nougat": "멜랑크림 쿠키",
@@ -151,6 +157,7 @@ DEFAULT_PARTY_SLOT4_BY_KIND = {
     "isle": "피닉스페퍼 쿠키",
     "char": "피닉스페퍼 쿠키",
     "neon": "피닉스페퍼 쿠키",
+    "sancho": "피닉스페퍼 쿠키",
     "moonlight": "피닉스페퍼 쿠키",
     "milky": "피닉스페퍼 쿠키",
     "nougat": "피닉스페퍼 쿠키",

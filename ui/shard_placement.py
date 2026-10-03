@@ -660,6 +660,8 @@ def _unique_priority_for_cookie(cookie_name: str, season_mode: str = "season4") 
                 return ["버터밀크맛 쿠키의 기억", "블랙베리맛 쿠키의 기억", "콜라비맛 쿠키의 기억"]
             if name == "네온데니쉬맛 쿠키":
                 return ["블랙베리맛 쿠키의 기억", "버터밀크맛 쿠키의 기억"]
+            if name == "산초맛 쿠키":
+                return ["블랙베리맛 쿠키의 기억", "버터밀크맛 쿠키의 기억"]
             if name in {"달빛술사 쿠키", "달빛술사맛 쿠키"}:
                 return ["콜라비맛 쿠키의 기억", "블랙베리맛 쿠키의 기억", "버터밀크맛 쿠키의 기억"]
             return ["블랙베리맛 쿠키의 기억", "버터밀크맛 쿠키의 기억", "콜라비맛 쿠키의 기억"]
