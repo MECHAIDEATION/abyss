@@ -902,7 +902,7 @@ def _party_seaz_options_for_cookie(cookie_name: str) -> tuple[list[str], str]:
         opts = (getattr(sim, "blue_mallow_allowed_seaz", lambda: [])() or [x for x in all_seaz if str(x).startswith("바닐라몬드:")])
         preferred = getattr(sim, "BLUE_MALLOW_DEFAULT_SEAZ", "바닐라몬드:치열한 선봉자")
     elif cookie_name == "스타더스트 쿠키":
-        opts = (getattr(sim, "stardust_allowed_seaz", lambda: [])() or [x for x in all_seaz if str(x).startswith("페퍼루비:")])
+        opts = (getattr(sim, "stardust_allowed_seaz", lambda: [])() or [x for x in all_seaz if str(x).startswith("페퍼루비:") or str(x).startswith("민트쿼츠:")])
         preferred = "페퍼루비:영예로운 기사도"
     elif cookie_name == "잭프루트맛 쿠키":
         opts = (getattr(sim, "jackfruit_allowed_seaz", lambda: [])() or [getattr(sim, "JACKFRUIT_FIXED_SEAZ", "소다마린:거침없는 습격자")])
